@@ -1,4 +1,7 @@
 # 한방에 가기!
+
+    mkdir -p htdocs/dash/vod
+    mkdir -p htdocs/livesim_vod_configs
     
     ffmpeg -y  -f lavfi -i 'testsrc=size=160x120[out0];aevalsrc=sin(440*2*PI*t)*0.01[out1]' -t 10 -r 29.970 -force_key_frames 'expr:eq(mod(n,30),0)' -c:v libx264 -preset ultrafast -b:v 1000k -c:a aac -b:a 128k -ar 48000 -pix_fmt yuv420p -ac 2 -f mp4 0.mp4
     ffmpeg -y  -f lavfi -i 'testsrc=size=3840x2160[out0];aevalsrc=sin(440*2*PI*t)*0.01[out1]' -t 10 -r 29.970 -force_key_frames 'expr:eq(mod(n,30),0)' -c:v libx265 -preset ultrafast -b:v 1000k -c:a aac -b:a 128k -ar 48000 -pix_fmt yuv420p -ac 2 -f mp4 0.mp4
