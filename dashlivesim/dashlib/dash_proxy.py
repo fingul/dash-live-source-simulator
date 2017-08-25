@@ -310,6 +310,9 @@ class DashProvider(object):
 
     def error_response(self, msg):
         "Return a mod_python error response."
+
+        print('error_response={msg}'.format(msg=msg))
+
         if self.req:
             self.req.log_error("dash_proxy: [%s] %s" % ("/".join(self.url_parts[-3:]), msg))
         return {'ok': False, 'pl': msg + "\n"}
