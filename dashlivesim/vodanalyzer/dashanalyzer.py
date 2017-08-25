@@ -222,7 +222,9 @@ class DashAnalyzer(object):
                             rep_data['endTime'] = rep_data['endTick']/float(track_timescale)
                             rep_data['endNr'] = segNr
                         else:
-                            raise DashAnalyzerError("Too much drift in the duration of the segments")
+                            print('[SKIP!!!!!!]raise DashAnalyzerError("Too much drift in the duration of the segments")')
+                            break
+                            #raise DashAnalyzerError("Too much drift in the duration of the segments")
                         segNr += 1
                         if self.verbose:
                             sys.stdout.write(".")
