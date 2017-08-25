@@ -146,7 +146,7 @@ class AdaptationSet(MpdElement):
     @property
     def content_type(self):
         "Get the contentType for the AdaptationSet."
-        return self.attribs['contentType']
+        return self.attribs['contentType'] or self.attribs['mimeType'].split('/')[0]
 
     @property
     def media_pattern(self):
