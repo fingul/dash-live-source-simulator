@@ -21,9 +21,49 @@
     sed -i -e 's/default_tsbd_secs = 300/default_tsbd_secs = 3000000000/g' htdocs/livesim_vod_configs/out_1s.cfg
     
     http://0.0.0.0:8059/livesim/out_1s/manifest.mpd
+    http://0.0.0.0:8059/livesim/10sec_1s/manifest.mpd
+    http://0.0.0.0:8059/livesim/4k_1s/manifest.mpd
+    http://0.0.0.0:8059/livesim/testpic_2s/Manifest.mpd
+    
+    
+    wget http://0.0.0.0:8059/livesim/out_1s/video-hev1/1502369966.m4s
+    
+
+
+    
+    http://qxqx.iptime.org:8059/livesim/10sec_1s/manifest.mpd
+    => 샘플 타임코드 10초 파일 반복 (HEVC/3840x2160/AAC)
+
+    http://qxqx.iptime.org:8059/livesim/out_1s/manifest.mpd
+    => 샘플 4K 영상 10초 반복 (HEVC/3840x2160/AAC)
+    
+    http://qxqx.iptime.org:8059/livesim/4k_1s/manifest.mpd
+    => 샘플 4K 영상 93초 반복 (HEVC/3840x2160/AAC)
+    
+    http://qxqx.iptime.org:8059/livesim/testpic_2s/Manifest.mpd
+    => 샘플 640x360 영상 1시간 반복 (H264/640x360/AAC)
+    
+
+    
+    
+    http://qxqx.iptime.org:8059/livesim/4k_1s/manifest.mpd
+
+    rsync -avh --iconv=utf-8-mac,utf-8 --delete --progress ~/dash-live-source-simulator q:
     
     web.py
 
+
+# 배포
+
+rsync -avh --iconv=utf-8-mac,utf-8 --delete --progress ~/dash-live-source-simulator q:
+
+# 서비스 등록
+
+sudo cp ~/dash-live-source-simulator/dashlive.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable dashlive.service
+sudo systemctl start dashlive.service
+sudo systemctl status dashlive.service
 
 # DASH-IF DASH Live Source Simulator
 

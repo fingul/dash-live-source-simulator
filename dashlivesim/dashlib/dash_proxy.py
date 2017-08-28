@@ -65,6 +65,9 @@ For infinite content, the default is startNumber = 0, availabilityStartTime = 19
 from os.path import splitext, join
 from math import ceil
 from re import findall
+
+import os
+
 from .initsegmentfilter import InitLiveFilter
 from .mediasegmentfilter import MediaSegmentFilter
 from . import segmentmuxer
@@ -368,6 +371,8 @@ class DashProvider(object):
                 diff = self.now_float - (cfg.availability_end_time + EXTRA_TIME_AFTER_END_IN_S)
                 response = self.error_response("Request for %s after AET. %.1fs too late" % (cfg.filename, diff))
             else:
+                print ("GOGOGO!!!!!!!!")
+
                 response = self.process_media_segment(cfg, self.now_float)
                 if len(cfg.multi_url) == 1:  # There is one specific baseURL with losses specified
                     a_var, b_var = cfg.multi_url[0].split("_")
@@ -448,6 +453,9 @@ class DashProvider(object):
 
         # pylint: disable=too-many-locals
 
+        print("cfg={}".format(cfg))
+        print("now_float={}".format(now_float))
+
         def get_timescale(cfg):
             "Get timescale for the current representation."
             timescale = None
@@ -495,6 +503,9 @@ class DashProvider(object):
         assert 0 <= vod_nr - cfg.vod_first_segment_in_loop < cfg.vod_nr_segments_in_loop
         rel_path = cfg.rel_path
         nr_reps = len(cfg.reps)
+
+        print("rel_path={}".format(rel_path))
+
         if nr_reps == 1:  # Not muxed
             seg_content = self.filter_media_segment(cfg, cfg.reps[0], rel_path, vod_nr, seg_nr, seg_ext,
                                                     offset_at_loop_start, lmsg)
@@ -515,6 +526,13 @@ class DashProvider(object):
     def filter_media_segment(self, cfg, rep, rel_path, vod_nr, seg_nr, seg_ext, offset_at_loop_start, lmsg):
         "Filter an actual media segment by using time-scale from init segment."
         media_seg_file = join(self.content_dir, cfg.content_name, rel_path, "%d%s" % (vod_nr, seg_ext))
+
+        print("@media_seg_file={}".format(media_seg_file))
+        print("@os.path.exists(media_seg_file)={}".format(os.path.exists(media_seg_file)))
+
+
+
+
         timescale = rep['timescale']
         scte35_per_minute = (rep['content_type'] == 'video') and cfg.scte35_per_minute or 0
         is_ttml = rep['content_type'] == 'subtitles'

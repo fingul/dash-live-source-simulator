@@ -40,7 +40,8 @@ try:
 except ImportError:
     pass
 
-#pylint: disable=too-many-branches
+
+# pylint: disable=too-many-branches
 def dash_handler(req, server_agent, request_handler):
     "This is the mod_python handler."
 
@@ -68,12 +69,15 @@ def dash_handler(req, server_agent, request_handler):
             if not response["ok"]:
                 success = False
             payload_in = response["pl"]
-    #pylint: disable=broad-except
+    # pylint: disable=broad-except
     except Exception, exc:
         import traceback
         traceback.print_exc()
 
         success = False
+
+        print("exc={}".format(exc))
+
         req.log_error("mod_dash_handler request error: %s" % exc)
         payload_in = "DASH Proxy Error: %s\n URL=%s" % (exc, url)
         req.content_type = "text/plain"
@@ -96,15 +100,16 @@ def dash_handler(req, server_agent, request_handler):
     if req.status != apache.HTTP_NOT_FOUND:
         if range_line:
             payload_out, range_out = handle_byte_range(payload_in, range_line)
-            if range_out != "": # OK
+            if range_out != "":  # OK
                 req.headers_out['Content-Range'] = range_out
                 req.status = HTTP_PARTIAL_CONTENT
-            else: # Bad range, drop it.
+            else:  # Bad range, drop it.
                 req.log_error("mod_dash_handler: Bad range %s" % (range_line))
 
     req.headers_out['Content-Length'] = "%d" % len(payload_out)
     req.write(payload_out)
     return apache.OK
+
 
 def set_mime_type(req, ext):
     "Set mime-type depending on extension."
@@ -115,6 +120,7 @@ def set_mime_type(req, ext):
         req.content_type = "video/iso.segment"
     elif ext == ".mp4":
         req.content_type = "video/mp4"
+
 
 def set_out_headers(req, server_agent):
     "Set the response headers."
@@ -127,6 +133,7 @@ def set_out_headers(req, server_agent):
     req.headers_out['Access-Control-Allow-Methods'] = 'GET,HEAD,OPTIONS'
     req.headers_out['Access-Control-Allow-Origin'] = '*'
     req.headers_out['Access-Control-Expose-Headers'] = 'Server,range,Content-Length,Content-Range,Date'
+
 
 def handle_byte_range(payload, range_line):
     """Handle byte range and return data and range-header value.
@@ -143,19 +150,19 @@ def handle_byte_range(payload, range_line):
     if range_start == "" and range_end != "":
         # This is the rangeStart lasts bytes
         range_start = length - int(range_end)
-        range_end = length -1
+        range_end = length - 1
     elif range_start != "":
         range_start = int(range_start)
         if range_end != "":
-            range_end = min(int(range_end), length-1)
+            range_end = min(int(range_end), length - 1)
         else:
-            range_end = length-1
+            range_end = length - 1
     else:
         bad_range = True
     if range_end < range_start:
         bad_range = True
     if bad_range:
         return (payload, "")
-    ranged_payload = payload[range_start: range_end+1]
+    ranged_payload = payload[range_start: range_end + 1]
     range_response = "bytes %d-%d/%d" % (range_start, range_end, len(payload))
     return (ranged_payload, range_response)

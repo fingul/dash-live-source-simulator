@@ -1,0 +1,9 @@
+[Unit]
+Description=dashlive
+
+[Service]
+Type=simple
+ExecStart=/home/m/dash-live-source-simulator/run_service.sh
+
+[Install]
+WantedBy=multi-user.target

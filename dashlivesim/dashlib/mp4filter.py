@@ -48,8 +48,12 @@ class MP4Filter(object):
 
     def __init__(self, filename=None, data=None):
         self.filename = filename
+
+        print("@MP4Filter-filename={}".format(filename))
+
         if filename is not None:
             self.data = open(filename, "rb").read()
+            print("@MP4Filter-len(data)={}".format(len(self.data)))
         else:
             self.data = data
         self.emsg = None

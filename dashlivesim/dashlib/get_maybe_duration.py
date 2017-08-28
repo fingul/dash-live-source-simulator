@@ -63,15 +63,25 @@ def find_default_sample_duration(s):
     except:
         return 0
 
+import sys
+b_linux = sys.platform.startswith('linux')
 
 def get_maybe_duration(filename):
+    if b_linux:
+        print("[WARN]get_maybe_duration just return HARDCODE DURATION 1024")
+        return 1024
+
+    print("[WARN]get_maybe_duration CALCURATED VIA /usr/local/bin/mp4dump")
+
     # mp4dump out/audio/und/mp4a/seg-1.m4s --format json
     cmds = "/usr/local/bin/mp4dump {filename} --format json".format(filename=filename)
     l_cmd = shlex.split(cmds)
 
     s = subprocess.check_output(l_cmd)
     #print(s)
-    return find_default_sample_duration(s)
+    maybe_duration = find_default_sample_duration(s)
+    print("maybe_duration={}".format(maybe_duration))
+    return maybe_duration
 
 
 if __name__ == '__main__':
