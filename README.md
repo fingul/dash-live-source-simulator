@@ -1,3 +1,7 @@
+# MAC INSTALL - VLC3
+
+    brew install caskroom/versions/vlc-nightly
+
 # 한방에 가기!
 
     mkdir -p htdocs/dash/vod
