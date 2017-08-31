@@ -65,10 +65,10 @@
     http://qxqx.iptime.org/livesim/out_1s/manifest.mpd
     => 샘플 4K 영상 10초 반복 (HEVC/3840x2160/AAC)
     
-    http://qxqx.iptime.org:8059/livesim/4k_1s/manifest.mpd
+    http://qxqx.iptime.org/livesim/4k_1s/manifest.mpd
     => 샘플 4K 영상 93초 반복 (HEVC/3840x2160/AAC)
     
-    http://qxqx.iptime.org:8059/livesim/testpic_2s/Manifest.mpd
+    http://qxqx.iptime.org/livesim/testpic_2s/Manifest.mpd
     => 샘플 640x360 영상 1시간 반복 (H264/640x360/AAC)
     
 
