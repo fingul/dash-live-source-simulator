@@ -1,8 +1,32 @@
+# TEST LAB
+
+    cat ~/.gpac/GPAC.cfg
+    
+        [Downloader]
+        CleanCache=no
+        DisableCache=yes
+        
+        [DASH]
+        KeepFiles=yes
+        #no 이면, 로컬 파일 저장
+        MemoryStorage=yes   
+
+
+    MP4Client -lf 0.log -logs all@debug http://qxqx.iptime.org/livesim/out_1s/manifest.mpd 
+    MP4Client -lf 0.log -logs dash:network@info http://qxqx.iptime.org/livesim/out_1s/manifest.mpd
+    
+    tail -f 0.log | grep HTTP
+    
+    killall -9 MP4Client 
+
 # MAC INSTALL - VLC3
 
     brew install caskroom/versions/vlc-nightly
 
 # 한방에 가기!
+
+    MP4Client -lf log.txt -logs dash:network@info http://vm2.dashif.org/livesim/testpic_2s/Manifest.mpd
+
 
     mkdir -p htdocs/dash/vod
     mkdir -p htdocs/livesim_vod_configs
@@ -35,10 +59,10 @@
 
 
     
-    http://qxqx.iptime.org:8059/livesim/10sec_1s/manifest.mpd
+    http://qxqx.iptime.org/livesim/10sec_1s/manifest.mpd
     => 샘플 타임코드 10초 파일 반복 (HEVC/3840x2160/AAC)
 
-    http://qxqx.iptime.org:8059/livesim/out_1s/manifest.mpd
+    http://qxqx.iptime.org/livesim/out_1s/manifest.mpd
     => 샘플 4K 영상 10초 반복 (HEVC/3840x2160/AAC)
     
     http://qxqx.iptime.org:8059/livesim/4k_1s/manifest.mpd
