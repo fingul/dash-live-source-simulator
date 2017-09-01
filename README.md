@@ -1,3 +1,26 @@
+# availabilityStartTime 설정 (AST)
+
+    UTCEPOCH = STARTTIME
+
+    [HOST]/livesim/start_[UTCEPOCH]/MPD_URL
+
+    1504191600 = 2017-09-01-00-00 ( https://www.epochconverter.com/ )
+
+    http://qxqx.iptime.org/livesim/start_1504191600/10sec_1s/manifest.mpd
+    => 샘플 타임코드 10초 파일 반복 (HEVC/3840x2160/AAC)
+
+    http://qxqx.iptime.org/livesim/start_1504191600/out_1s/manifest.mpd
+    => 샘플 4K 영상 10초 반복 (HEVC/3840x2160/AAC)
+
+    http://qxqx.iptime.org/livesim/start_1504191600/4k_1s/manifest.mpd
+    => 샘플 4K 영상 93초 반복 (HEVC/3840x2160/AAC)
+
+    http://qxqx.iptime.org/livesim/start_1504191600/testpic_2s/Manifest.mpd
+    => 샘플 640x360 영상 1시간 반복 (H264/640x360/AAC)
+
+
+
+
 # TEST LAB
 
     cat ~/.gpac/GPAC.cfg
