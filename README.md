@@ -1,3 +1,7 @@
+# traffic shaping
+
+    - nginx bandwidth 제한 기능으로 IP 별로 건다
+
 # 성능
 
     개당 0.01 초 정도 걸린다고 가정할때, worker 갯수만 늘리면 무난하게 200 connection 가능 예상
