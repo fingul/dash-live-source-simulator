@@ -31,6 +31,9 @@
 
 # Note that VOD_CONF_DIR and CONTENT_ROOT directories must be set in environment
 # For Apache mod_wsgi, this is done using setEnv
+from pprint import pprint
+
+import profilehooks
 
 from dashlivesim import SERVER_AGENT
 import httplib
@@ -64,14 +67,35 @@ def reply(code, resp, body='', headers={}):
     return [body]
 
 #pylint: disable=too-many-branches, too-many-locals
+
+
+
+
+def timeit(method):
+
+    def timed(*args, **kw):
+        ts = time()
+        result = method(*args, **kw)
+        te = time()
+
+        # print '%r (%r, %r) %2.3f sec' % \
+        #       (method.__name__, args, kw, te-ts)
+        print("timeit => {} @ {} sec".format(method.__name__ , te-ts))
+        return result
+
+    return timed
+# @profilehooks.profile()
+@timeit
 def application(environment, start_response):
     "WSGI Entrypoint"
 
+    pprint(environment)
+
     #pylint: disable=too-many-locals
     hostname = environment['HTTP_HOST']
-    url = environment['REQUEST_URI']
-    vod_conf_dir = environment['VOD_CONF_DIR']
-    content_root = environment['CONTENT_ROOT']
+    url = environment.get('PATH_INFO') or environment['REQUEST_URI']
+    vod_conf_dir = './htdocs/livesim_vod_configs'#environment['VOD_CONF_DIR']
+    content_root = './htdocs/dash/vod'#environment['CONTENT_ROOT']
     is_https = environment.get('HTTPS', 0)
     path_parts = url.split('/')
     ext = splitext(path_parts[-1])[1]
@@ -143,6 +167,7 @@ def application(environment, start_response):
     return reply(status, start_response, payload_out, headers)
 
 def get_mime_type(ext):
+
     "Get mime-type depending on extension."
     if ext == ".mpd":
         return "application/dash+xml"

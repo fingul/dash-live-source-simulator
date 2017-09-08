@@ -1,0 +1,2 @@
+gunicorn==19.7.1
+profilehooks==1.9.0

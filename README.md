@@ -1,3 +1,25 @@
+# 성능
+
+    개당 0.01 초 정도 걸린다고 가정할때, worker 갯수만 늘리면 무난하게 200 connection 가능 예상
+
+# gunicorn
+
+    - 개발
+        
+        gunicorn  -w 1 dashlivesim.mod_wsgi.mod_dashlivesim:application --reload --log-level debug
+  
+    - deploy
+  
+        gunicorn  -w 4 dashlivesim.mod_wsgi.mod_dashlivesim:application 
+
+# mpeg-dash live download
+
+    아직 확실이 동작하는 코드는 못찾음
+    
+    - youtube-dl => 안됨
+
+    https://github.com/ping/instagram_private_api_extensions/blob/master/instagram_private_api_extensions/live.py
+
 # availabilityStartTime 설정 (AST)
 
     UTCEPOCH = STARTTIME
@@ -17,6 +39,8 @@
 
     http://qxqx.iptime.org/livesim/start_1504191600/testpic_2s/Manifest.mpd
     => 샘플 640x360 영상 1시간 반복 (H264/640x360/AAC)
+    
+    http://0.0.0.0:8000/livesim/start_1504191600/4k_1s/manifest.mpd
 
 
 
