@@ -1,3 +1,50 @@
+ffmpeg -y  -f lavfi -i 'testsrc=size=160x120[out0];aevalsrc=sin(440*2*PI*t)*0.01[out1]' -t 3 -r 29.970 -force_key_frames 'expr:eq(mod(n,30),0)' -c:v libx264 -preset ultrafast -b:v 1000k -c:a aac -b:a 128k -ar 48000 -pix_fmt yuv420p -ac 2 -f mp4 0.mp4
+
+
+
+
+
+
+
+
+
+
+
+
+
+In [4]: s = open('/Users/m/Downloads/output.mp4','rb').read()
+In [5]: b = s.replace(b'mhm1',b'mp4a')
+In [6]: open('/tmp/0.mp4','wb').write(b)
+
+# 오디오는 복사하고, 비디오는 다시 뜬다
+
+~/dash-live-source-simulator
+
+ffmpeg -y  -i ~/Downloads/output.mp4 -r 29.970 -force_key_frames 'expr:eq(mod(n,30),0)' -c:v libx265 -preset ultrafast -pix_fmt yuv420p  -b:v 1000k -c:a copy  -f mp4 ~/h.mp4
+
+docker run -v `pwd`:/mnt -it --rm alfg/bento4 mp4fragment /mnt/h.mp4 /mnt/h1.mp4 --fragment-duration 1000
+
+rr htdocs/dash/vod/h1_1s
+
+docker run -v `pwd`:/mnt -v `pwd`/mp4-dash.py:/opt/bento4/utils/mp4-dash.py -it --rm alfg/bento4 utils/mp4-dash.py --force /mnt/h1.mp4 -o /mnt/htdocs/dash/vod/h1_1s --mpd-name=manifest.mpd
+
+find htdocs/dash/vod/h1_1s
+
+cat htdocs/dash/vod/h1_1s/manifest.mpd
+
+./tools/run_vodanalyzer.sh  /Users/m/dash-live-source-simulator/htdocs/dash/vod/h1_1s/manifest.mpd
+
+\mv h1_1s.cfg htdocs/livesim_vod_configs/
+\mv h1_1s_video.dat htdocs/livesim_vod_configs/
+\mv h1_1s_audio.dat htdocs/livesim_vod_configs/
+sed -i -e 's/default_tsbd_secs = 300/default_tsbd_secs = 3000000000/g' htdocs/livesim_vod_configs/h1_1s.cfg
+
+
+s = open('./htdocs/dash/vod/h1_1s/audio-en-mp4a/init.mp4','rb').read()
+s = s.replace(b'mp4a',b'mhm1')
+open('./htdocs/dash/vod/h1_1s/audio-en-mp4a/init.mp4','wb').write(s)
+
+
 # traffic shaping
 
     - nginx bandwidth 제한 기능으로 IP 별로 건다
@@ -134,7 +181,7 @@
 
 # 배포
 
-rsync -avh --iconv=utf-8-mac,utf-8 --delete --progress ~/dash-live-source-simulator q:
+rsync -avh --iconv=utf-8-mac,utf-8 --delete --progress ~/dash-live-source-simulator q:/home/m
 
 # 서비스 등록
 

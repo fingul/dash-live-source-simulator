@@ -89,7 +89,9 @@ def timeit(method):
 def application(environment, start_response):
     "WSGI Entrypoint"
 
-    pprint(environment)
+    # pprint(environment)
+
+
 
     #pylint: disable=too-many-locals
     hostname = environment['HTTP_HOST']
@@ -104,6 +106,8 @@ def application(environment, start_response):
     range_line = None
     if 'HTTP_RANGE' in environment:
         range_line = environment['HTTP_RANGE']
+
+    print("@@url={url}".format(url=url))
 
     # Print debug information
     #print hostname

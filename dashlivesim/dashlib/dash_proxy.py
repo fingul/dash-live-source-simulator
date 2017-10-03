@@ -64,6 +64,7 @@ For infinite content, the default is startNumber = 0, availabilityStartTime = 19
 
 from os.path import splitext, join
 from math import ceil
+from pprint import pprint
 from re import findall
 
 import os
@@ -536,6 +537,14 @@ class DashProvider(object):
         timescale = rep['timescale']
         scte35_per_minute = (rep['content_type'] == 'video') and cfg.scte35_per_minute or 0
         is_ttml = rep['content_type'] == 'subtitles'
+
+
+
+        print("media_seg_file={media_seg_file} | seg_nr={seg_nr} | cfg.seg_duration={cfg.seg_duration}|offset_at_loop_start={offset_at_loop_start} | timescale={timescale} | lmsg={lmsg}|is_ttml={is_ttml}".format(**locals()))
+
+        #pprint("--locals()--")
+        #pprint(locals())
+
         seg_filter = MediaSegmentFilter(media_seg_file, seg_nr, cfg.seg_duration, offset_at_loop_start, lmsg, timescale,
                                         scte35_per_minute, rel_path, is_ttml)
         seg_content = seg_filter.filter()

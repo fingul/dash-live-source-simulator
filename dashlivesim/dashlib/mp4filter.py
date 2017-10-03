@@ -31,6 +31,7 @@ The filter is streamlined for DASH or other content with one track per file.
 #  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 #  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #  POSSIBILITY OF SUCH DAMAGE.
+import copy
 
 from .structops import str_to_uint32, uint32_to_str
 
@@ -72,6 +73,10 @@ class MP4Filter(object):
 
     def filter(self):
         "Top level box parsing. The lower-level parsing is done in self.filter_box(). "
+
+        # return self.data
+
+
         self.output = ""
         pos = 0
         while pos < len(self.data):
